@@ -1,12 +1,15 @@
 <script lang="ts">
-	import '../app.css';
-	import favicon from '$lib/assets/favicon.svg';
+	import '$src/app.css';
+	import type { LayoutProps } from './$types';
 
-	let { children } = $props();
+	const { children }: LayoutProps = $props();
 </script>
 
 <svelte:head>
-	<link rel="icon" href={favicon} />
+	<title>Svelte template</title>
+	<meta name="description" content="Svelte template" />
+	<meta name="keywords" content="svelte,template" />
+	<meta name="robots" content="index,follow" />
 </svelte:head>
 
 {@render children()}

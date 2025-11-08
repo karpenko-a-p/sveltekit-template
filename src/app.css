@@ -1,2 +1,12 @@
 @import 'tailwindcss';
-@plugin '@tailwindcss/typography';
+
+/*Настройка tailwindcss*/
+@import '$src/ui/font.css';
+@import '$src/ui/theme.css';
+
+/*Компоненты*/
+@import '$src/ui/Button/Button.css';
+@import '$src/ui/Input/Input.css';
+@import '$src/ui/Text/Text.css';
+@import '$src/ui/Heading/Heading.css';
+@import '$src/ui/Checkbox/Checkbox.css';
