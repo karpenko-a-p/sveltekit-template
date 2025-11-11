@@ -1,4 +1,4 @@
-class CounterStore {
+export class CounterStore {
   count = $state(0);
 
   readonly over10 = $derived(this.count > 10);
