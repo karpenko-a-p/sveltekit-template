@@ -1,4 +1,5 @@
 @import './Button/Button.css';
+@import './Badge/Badge.css';
 @import './Input/Input.css';
 @import './Text/Text.css';
 @import './Heading/Heading.css';
@@ -6,3 +7,7 @@
 @import './Switch/Switch.css';
 @import './Radio/Radio.css';
 @import './Select/Select.css';
+@import './Container/Container.css';
+@import './Link/Link.css';
+@import './Paper/Paper.css';
+@import './Skeleton/Skeleton.css';

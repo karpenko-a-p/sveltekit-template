@@ -9,9 +9,11 @@
   <title>Counter</title>
 </svelte:head>
 
-<h1>Welcome to SvelteKit</h1>
-<p>Current url is {data.url}</p>
-{#each { length: 1000 }}
-  <Counter />
-  <hr />
-{/each}
+<div class="container flex flex-col">
+  <h1>Welcome to SvelteKit</h1>
+  <p class="badge self-start my-2">Current url is {data.url}</p>
+  {#each { length: 100 }}
+    <Counter />
+    <hr />
+  {/each}
+</div>
