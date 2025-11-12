@@ -20,8 +20,11 @@
     "@sveltejs/adapter-node": "5.4.0",
     "@sveltejs/kit": "2.48.4",
     "@sveltejs/vite-plugin-svelte": "6.2.1",
+    "@tailwindcss/postcss": "4.1.17",
     "@tailwindcss/vite": "4.1.17",
     "@types/node": "24.10.0",
+    "autoprefixer": "10.4.22",
+    "cssnano": "7.1.2",
     "eslint": "9.39.1",
     "eslint-config-prettier": "10.1.8",
     "eslint-plugin-storybook": "10.0.6",
@@ -38,5 +41,10 @@
   },
   "dependencies": {
     "@tabler/icons-svelte": "3.35.0"
-  }
+  },
+  "browserslist": [
+    "last 15 versions",
+    "not dead",
+    "> 0.2%"
+  ]
 }
