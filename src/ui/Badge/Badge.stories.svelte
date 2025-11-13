@@ -10,27 +10,21 @@
 </script>
 
 <Story name="Main">
-  <Mock>
-    <p class="badge">Badge</p>
-  </Mock>
+  <p class="badge">Badge</p>
 </Story>
 
 <Story name="Styles">
-  <Mock>
-    <div class="flex gap-4">
-      <p class="badge">Badge</p>
-      <p class="badge green">Badge</p>
-      <p class="badge blue">Badge</p>
-    </div>
-  </Mock>
+  <div class="flex gap-4">
+    <p class="badge">Badge</p>
+    <p class="badge green">Badge</p>
+    <p class="badge blue">Badge</p>
+  </div>
 </Story>
 
 <Story name="Icons">
-  <Mock>
-    <div class="flex gap-4">
-      <p class="badge"><IconCheck />Badge<IconCheck /></p>
-      <p class="badge green"><IconCheck />Badge<IconCheck /></p>
-      <p class="badge blue"><IconCheck />Badge<IconCheck /></p>
-    </div>
-  </Mock>
+  <div class="flex gap-4">
+    <p class="badge"><IconCheck />Badge<IconCheck /></p>
+    <p class="badge green"><IconCheck />Badge<IconCheck /></p>
+    <p class="badge blue"><IconCheck />Badge<IconCheck /></p>
+  </div>
 </Story>
