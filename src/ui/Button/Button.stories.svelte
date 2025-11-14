@@ -50,3 +50,10 @@
     </div>
   </Mock>
 </Story>
+
+<Story name="Disabled">
+  <Mock>
+    <button disabled><IconCheck />Button</button>
+    <button class="secondary" disabled><IconCheck />Button</button>
+  </Mock>
+</Story>
