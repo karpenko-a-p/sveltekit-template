@@ -8,7 +8,8 @@ export default {
     adapter: adapter(),
     alias: {
       '$src/*': './src/*',
-      '$project/*': './*'
+      '$project/*': './*',
+      '$svelte-kit/*': './.svelte-kit/types/src/routes/*'
     }
   }
 };
