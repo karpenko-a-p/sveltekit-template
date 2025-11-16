@@ -1,0 +1,5 @@
+@layer components {
+  .file-input {
+    @apply flex flex-col;
+  } 
+}
