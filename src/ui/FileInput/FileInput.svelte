@@ -1,5 +1,6 @@
 <script lang="ts">
   import type { HTMLInputAttributes } from 'svelte/elements';
+  import IconFile from '@tabler/icons-svelte/icons/file';
 
   interface Props extends HTMLInputAttributes {
     label: string;
@@ -10,7 +11,7 @@
 
   let {
     files = $bindable(),
-    label,
+    children,
     class: className = '',
     invalid,
     errorMessage,
@@ -21,15 +22,16 @@
 
 <div class="file-input {className}">
   <label>
-    <span>{label}</span>
     <input type="file" aria-invalid={invalid} bind:files {...rest} />
+    {@render children?.()}
+    <p class="file-input-placeholder"><IconFile />Приложите файлы</p>
   </label>
 
   {#if description}
-    <p class="input-description">{description}</p>
+    <p class="file-input-description">{description}</p>
   {/if}
 
   {#if invalid && errorMessage}
-    <p class="input-error">{errorMessage}</p>
+    <p class="file-input-error">{errorMessage}</p>
   {/if}
 </div>
