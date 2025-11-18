@@ -8,7 +8,7 @@
 
   let { files = $bindable(), class: className = '' }: Props = $props();
 
-  function deleteUploadedImage(file: File): void {
+  function deleteImage(file: File): void {
     if (!files) return;
 
     const dataTransfer = new DataTransfer();
@@ -26,7 +26,7 @@
 <ul class="grid grid-cols-5 max-tablet:grid-cols-3 max-mobile:grid-cols-2 gap-1 {className}">
   {#each files as file}
     {@const fileUrl = URL.createObjectURL(file)}
-    {@const onclick = () => deleteUploadedImage(file)}
+    {@const onclick = () => deleteImage(file)}
     <li class="relative rounded-2xl overflow-hidden border border-gray-400/25">
       <a href={fileUrl} class="cursor-pointer w-full h-full min-h-full max-h-[30vh] block" target="_blank">
         <img class="object-cover w-full h-full min-h-full" src={fileUrl} alt={file.name} />

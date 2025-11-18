@@ -1,14 +1,25 @@
 <script lang="ts">
   import SEO from '$src/components/SEO.svelte';
   import UploadedImages from '$src/components/UploadedImages.svelte';
-  import { FileInput, Input } from '$src/ui';
+  import { FileInput } from '$src/ui';
   import type { EventHandler } from 'svelte/elements';
+
+  let files = $state<Nilable<FileList>>();
+  const noFiles = $derived(!files?.length);
 
   const onsubmit: EventHandler<SubmitEvent, HTMLFormElement> = (event) => {
     event.preventDefault();
-  };
 
-  let files = $state<Nilable<FileList>>();
+    if (!files?.length) return;
+
+    const formData = new FormData();
+
+    for (const file of files) {
+      formData.append('files', file);
+    }
+
+    fetch('/api/v1/file/image', { method: 'POST', body: formData });
+  };
 </script>
 
 <SEO title="File load form" description="file load from" />
@@ -19,5 +30,6 @@
   <form {onsubmit}>
     <FileInput name="files" bind:files accept="image/*" multiple type="file" required />
     <UploadedImages bind:files class="my-2" />
+    <button class="mt-2 small" disabled={noFiles}>Сохранить</button>
   </form>
 </div>
