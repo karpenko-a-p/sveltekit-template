@@ -23,6 +23,7 @@
 
     <!-- Отрисовка свича -->
     <div class="switch-thumb">
+      <!-- svelte-ignore element_invalid_self_closing_tag -->
       <div class="switch-circle" />
     </div>
 

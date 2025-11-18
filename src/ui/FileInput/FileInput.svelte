@@ -3,7 +3,6 @@
   import IconFile from '@tabler/icons-svelte/icons/file';
 
   interface Props extends HTMLInputAttributes {
-    label: string;
     invalid?: boolean;
     errorMessage?: string;
     description?: string;
