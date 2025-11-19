@@ -2,9 +2,11 @@
   import SEO from '$src/components/SEO.svelte';
   import UploadedImages from '$src/components/UploadedImages.svelte';
   import { FileInput } from '$src/ui';
+  import { BooleanState } from '$src/utils/BooleanState';
   import type { EventHandler } from 'svelte/elements';
 
   let files = $state<Nilable<FileList>>();
+  const sendingFiles = new BooleanState();
   const noFiles = $derived(!files?.length);
 
   const onsubmit: EventHandler<SubmitEvent, HTMLFormElement> = (event) => {
@@ -12,13 +14,14 @@
 
     if (!files?.length) return;
 
+    sendingFiles.makeTrue();
     const formData = new FormData();
 
     for (const file of files) {
       formData.append('files', file);
     }
 
-    fetch('/api/v1/file/image', { method: 'POST', body: formData });
+    fetch('/api/v1/file/image', { method: 'POST', body: formData }).finally(sendingFiles.makeFalse);
   };
 </script>
 
@@ -28,7 +31,7 @@
   <h1 class="mb-3">File load form</h1>
 
   <form {onsubmit}>
-    <FileInput name="files" bind:files accept="image/*" multiple type="file" required />
+    <FileInput name="files" bind:files disabled={sendingFiles.value} accept="image/*" multiple type="file" required />
     <UploadedImages bind:files class="my-2" />
     <button class="mt-2 small" disabled={noFiles}>Сохранить</button>
   </form>
