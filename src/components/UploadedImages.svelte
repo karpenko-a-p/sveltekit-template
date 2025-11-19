@@ -33,10 +33,10 @@
       </a>
       <!-- prettier-ignore -->
       <div class="bg-white shadow-xl border border-gray-400/25 absolute bottom-1 left-1 w-[calc(100%-8px)] p-0.5 rounded-xl flex justify-between items-center overflow-hidden">
-        <p class="ml-1 grow max-mobile:text-xs text-sm text-ellipsis whitespace-nowrap overflow-hidden" title={file.name}>
+        <p class="ml-1 grow text-xs text-ellipsis whitespace-nowrap overflow-hidden" title={file.name}>
           {file.name}
         </p>
-        <p class="ml-1 max-mobile:text-xs text-sm secondary whitespace-nowrap">
+        <p class="ml-1 text-xs secondary whitespace-nowrap">
           {(file.size / 1014 / 1024).toFixed(2)} Мб
         </p>
         <button type="button" class="secondary small ml-1" {onclick}>
