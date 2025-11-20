@@ -8,6 +8,7 @@ node_modules
 /.svelte-kit
 /build
 test-static-folder
+/.idea
 
 # OS
 .DS_Store

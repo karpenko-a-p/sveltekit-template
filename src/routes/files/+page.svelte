@@ -12,12 +12,12 @@
   const onsubmit: EventHandler<SubmitEvent, HTMLFormElement> = (event) => {
     event.preventDefault();
 
-    if (!files?.length) return;
+    if (noFiles) return;
 
     sendingFiles.makeTrue();
     const formData = new FormData();
 
-    for (const file of files) {
+    for (const file of files!) {
       formData.append('files', file);
     }
 

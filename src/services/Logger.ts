@@ -1,5 +1,5 @@
 export abstract class Logger {
-  private static get timestamp() {
+  private static get timestamp(): string {
     return new Date().toISOString();
   }
 
