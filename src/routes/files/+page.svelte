@@ -2,7 +2,7 @@
   import SEO from '$src/components/SEO.svelte';
   import UploadedImages from '$src/components/UploadedImages.svelte';
   import { FileInput } from '$src/ui';
-  import { BooleanState } from '$src/utils/BooleanState';
+  import { BooleanState } from '$src/utils/BooleanState.svelte.ts';
   import type { EventHandler } from 'svelte/elements';
 
   let files = $state<Nilable<FileList>>();
@@ -31,7 +31,7 @@
   <h1 class="mb-3">File load form</h1>
 
   <form {onsubmit}>
-    <FileInput name="files" bind:files disabled={sendingFiles.value} accept="image/*" multiple type="file" required />
+    <FileInput name="files" bind:files disabled={sendingFiles.state} accept="image/*" multiple type="file" required />
     <UploadedImages bind:files class="my-2" />
     <button class="mt-2 small" disabled={noFiles}>Сохранить</button>
   </form>
