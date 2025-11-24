@@ -1,4 +1,7 @@
 export abstract class FileApi {
+  /**
+   * Сохранение изображений
+   */
   static async createImage(files: FileList): Promise<void> {
     if (!files.length) return;
 
