@@ -4,6 +4,7 @@
   import { FileInput } from '$src/ui';
   import { BooleanState } from '$src/utils/BooleanState.svelte.ts';
   import type { EventHandler } from 'svelte/elements';
+  import { FileApi } from '$src/api/FileApi.ts';
 
   let files = $state<Nilable<FileList>>();
   const sendingFiles = new BooleanState();
@@ -15,13 +16,8 @@
     if (noFiles) return;
 
     sendingFiles.makeTrue();
-    const formData = new FormData();
 
-    for (const file of files!) {
-      formData.append('files', file);
-    }
-
-    fetch('/api/v1/file/image', { method: 'POST', body: formData }).finally(sendingFiles.makeFalse);
+    FileApi.createImage(files!).finally(sendingFiles.makeFalse);
   };
 </script>
 
