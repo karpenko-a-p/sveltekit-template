@@ -4,3 +4,4 @@ export { default as Switch } from './Switch/Switch.svelte';
 export { default as Radio } from './Radio/Radio.svelte';
 export { default as Select } from './Select/Select.svelte';
 export { default as FileInput } from './FileInput/FileInput.svelte';
+export { default as View } from './View/View.svelte';
