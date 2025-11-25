@@ -3,12 +3,13 @@
     @apply border-none rounded-lg font-[500] inline-flex items-center justify-center cursor-pointer
     transition ease-in-out bg-blue-500 hover:bg-blue-600 text-white text-base gap-1
     max-mobile:text-sm px-4 py-2.5 max-mobile:px-3.5 max-mobile:py-2 shadow-lg shadow-blue-500/50
-    active:bg-blue-700 disabled:bg-gray-200/50 disabled:text-gray-500 disabled:shadow-none
+    disabled:bg-gray-100 disabled:text-gray-500 disabled:shadow-none active:shadow-md
     disabled:cursor-not-allowed select-none appearance-none [&>svg]:size-[24px]
-    max-mobile:[&>svg]:size-[20px] focus-visible:outline-offset-2
+    max-mobile:[&>svg]:size-[20px] focus-visible:outline-offset-2 not-disabled:active:translate-y-1
     focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-blue-500;
   }
 
+  /*Размер*/
   button.small {
     @apply px-3.5 py-2 max-mobile:px-3 max-mobile:py-1.5 text-sm max-mobile:text-xs
     [&>svg]:size-[20px] max-mobile:[&>svg]:size-[16px];
@@ -19,8 +20,24 @@
     [&>svg]:size-[28px] max-mobile:[&>svg]:size-[24px];
   }
 
+  /*Стиль*/
   button.secondary {
-    @apply bg-transparent text-black shadow-none hover:bg-gray-200 active:bg-gray-300
+    @apply bg-gray-200 text-black shadow-none hover:bg-gray-300
     disabled:bg-transparent disabled:text-gray-500;
+  }
+
+  button.ghost {
+    @apply bg-transparent text-black shadow-none hover:bg-gray-200
+    disabled:bg-transparent disabled:text-gray-500;
+  }
+
+  button.warn {
+    @apply bg-orange-200 text-orange-600 shadow-orange-200/50 hover:bg-orange-300
+    disabled:bg-gray-100 disabled:text-gray-500;
+  }
+
+  button.error {
+    @apply bg-red-200 text-red-600 shadow-red-200/50 hover:bg-red-300
+    disabled:bg-gray-100 disabled:text-gray-500;
   }
 }
