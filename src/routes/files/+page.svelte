@@ -6,7 +6,7 @@
   import type { EventHandler } from 'svelte/elements';
   import { FileApi } from '$src/api/FileApi.ts';
 
-  let files = $state<Nilable<FileList>>();
+  let files = $state<Maybe<FileList>>();
   const sendingFiles = new BooleanState();
   const noFiles = $derived(!files?.length);
 

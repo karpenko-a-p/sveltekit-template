@@ -1,32 +1,29 @@
-export class Result {
-  static ok(value?: unknown): Result {
+export class Result<TValue = unknown> {
+  static ok<TValue = unknown>(value: TValue = null as TValue): Result<TValue> {
     return new Result(true, value);
   }
 
-  static fail(value?: unknown): Result {
+  static fail<TValue = unknown>(value: TValue = null as TValue): Result<TValue> {
     return new Result(false, value);
   }
 
-  static from(result: unknown): Nilable<Result> {
-    if (result && typeof result === 'object' && 'success' in result && typeof result.success === 'boolean') {
-      return new Result(result.success, 'value' in result ? result.value : undefined);
+  static from<TValue>(result: unknown): Maybe<Result<TValue>> {
+    // prettier-ignore
+    if (result && typeof result === 'object' && 'success' in result && typeof result.success === 'boolean' && 'value' in result) {
+      return new Result(result.success, result.value as TValue);
     }
   }
 
   private constructor(
     private readonly success: boolean,
-    private readonly value: unknown
+    readonly value: TValue
   ) {}
 
-  get isOk(): boolean {
+  isOk<TVal extends TValue>(): this is Result<TVal> {
     return this.success;
   }
 
-  get isFail(): boolean {
+  isFail<TVal extends TValue>(): this is Result<TVal> {
     return !this.success;
-  }
-
-  unwrap<TValue = unknown>(): TValue {
-    return this.value as TValue;
   }
 }

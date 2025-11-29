@@ -1,1 +1,1 @@
-declare type Nilable<TValue> = TValue | null | undefined;
+declare type Maybe<TValue> = TValue | null | undefined;

@@ -2,7 +2,7 @@
   import IconTrash from '@tabler/icons-svelte/icons/trash';
 
   interface Props {
-    files: Nilable<FileList>;
+    files: Maybe<FileList>;
     class?: string;
   }
 
