@@ -1,7 +1,7 @@
 import adapter from 'svelte-adapter-bun';
 import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
+import type { Config } from '@sveltejs/kit';
 
-/** @type {import('@sveltejs/kit').Config} */
 export default {
   preprocess: vitePreprocess(),
   kit: {
@@ -10,6 +10,9 @@ export default {
       '$src/*': './src/*',
       '$project/*': './*',
       '$svelte-kit/*': './.svelte-kit/types/src/routes/*'
+    },
+    csrf: {
+      trustedOrigins: ['*']
     }
   }
-};
+} satisfies Config;
