@@ -1,10 +1,10 @@
 import { sql, redis } from 'bun';
-import type { IUserEntity } from '$src/repositories/entities';
+import type { UserEntity } from '$src/repositories/entities';
 
 export abstract class UserRepository {
   private static readonly USERS_KEY = 'users';
 
-  static async getUserById(id: IUserEntity['id']): Promise<Maybe<IUserEntity>> {
+  static async getUserById(id: UserEntity['id']): Promise<Maybe<UserEntity>> {
     const cacheKey = `user:${id}`;
     const cached = await redis.exists(cacheKey);
 
@@ -13,7 +13,7 @@ export abstract class UserRepository {
       return cachedUser && JSON.parse(cachedUser);
     }
 
-    const [user]: IUserEntity[] = await sql`select * from users where id = ${id}`;
+    const [user = null]: Maybe<UserEntity>[] = await sql`select * from users where id = ${id}`;
 
     redis.setex(cacheKey, 360, JSON.stringify(user));
     redis.sadd(cacheKey, UserRepository.USERS_KEY);
