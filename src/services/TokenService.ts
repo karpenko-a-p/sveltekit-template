@@ -7,12 +7,18 @@ export interface TokenPayload extends JwtPayload {
 }
 
 export abstract class TokenService {
+  /**
+   * Данные для токена
+   */
   private static readonly SIGN_OPTIONS: Readonly<SignOptions> = {
     expiresIn: '7Days',
     issuer: 'Me',
     audience: 'http://for.me'
   };
 
+  /**
+   * Расшифровка jwt токена
+   */
   static parse(token: string): Maybe<TokenPayload> {
     try {
       return jwt.verify(token, JWT_SECRET) as TokenPayload;
@@ -21,6 +27,9 @@ export abstract class TokenService {
     }
   }
 
+  /**
+   * Расшифровка и подпись jwt токена
+   */
   static sign(payload: Pick<TokenPayload, 'id' | 'login'>): string {
     return jwt.sign(payload, JWT_SECRET, TokenService.SIGN_OPTIONS);
   }

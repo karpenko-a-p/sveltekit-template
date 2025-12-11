@@ -2,10 +2,16 @@ import { sql, redis } from 'bun';
 import type { UserEntity } from '$src/repositories/entities';
 
 export abstract class UserRepository {
+  /**
+   * Общий ключ для записей пользователей
+   */
   private static readonly USERS_KEY = 'users';
 
+  /**
+   * Получение пользователя по идентификатору
+   */
   static async getUserById(id: UserEntity['id']): Promise<Maybe<UserEntity>> {
-    const cacheKey = `user:${id}`;
+    const cacheKey = `getUserById(${id})`;
     const cached = await redis.exists(cacheKey);
 
     if (cached) {
@@ -21,6 +27,9 @@ export abstract class UserRepository {
     return user;
   }
 
+  /**
+   * Обновление всех кэшей связанных с пользователями
+   */
   static async invalidateUsers(): Promise<void> {
     const cachedTags = await redis.smembers(UserRepository.USERS_KEY);
     await redis.del(...cachedTags);
