@@ -1,5 +1,7 @@
 import { sql, redis } from 'bun';
 import type { UserEntity } from '$src/repositories/entities';
+import { CacheFor } from '$src/repositories/CacheFor';
+import { type User, UserService } from '$src/models/User';
 
 export abstract class UserRepository {
   /**
@@ -10,7 +12,7 @@ export abstract class UserRepository {
   /**
    * Получение пользователя по идентификатору
    */
-  static async getUserById(id: UserEntity['id']): Promise<Maybe<UserEntity>> {
+  static async getUserById(id: UserEntity['id']): Promise<Maybe<User>> {
     const cacheKey = `getUserById(${id})`;
     const cached = await redis.exists(cacheKey);
 
@@ -19,9 +21,10 @@ export abstract class UserRepository {
       return cachedUser && JSON.parse(cachedUser);
     }
 
-    const [user = null]: Maybe<UserEntity>[] = await sql`select * from users where id = ${id}`;
+    const [userEntity = null] = await sql<UserEntity[]>`select * from users where id = ${id}`;
+    const user = userEntity && UserService.new(userEntity.id, userEntity.name)
 
-    redis.setex(cacheKey, 360, JSON.stringify(user));
+    redis.setex(cacheKey, CacheFor.ONE_HOUR, JSON.stringify(user));
     redis.sadd(cacheKey, UserRepository.USERS_KEY);
 
     return user;
