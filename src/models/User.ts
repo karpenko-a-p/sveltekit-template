@@ -9,10 +9,10 @@ export abstract class UserService {
   }
 
   static from(user: User): User {
-    return { id: user.id, name: user.name };
+    return { ...user };
   }
 
-  static isUser(user: unknown): boolean {
+  static isUser(user: unknown): user is User {
     return Boolean(
       user &&
       typeof user === 'object' &&

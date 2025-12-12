@@ -14,18 +14,19 @@ export abstract class UserRepository {
    */
   static async getUserById(id: UserEntity['id']): Promise<Maybe<User>> {
     const cacheKey = `getUserById(${id})`;
-    const cached = await redis.exists(cacheKey);
+    const cached = redis.exists(cacheKey);
+    const cachedUser = redis.get(cacheKey)
 
-    if (cached) {
-      const cachedUser = await redis.get(cacheKey);
-      return cachedUser && JSON.parse(cachedUser);
+    if (await cached) {
+      const user = await cachedUser;
+      return user && JSON.parse(user);
     }
 
-    const [userEntity = null] = await sql<UserEntity[]>`select * from users where id = ${id}`;
+    const [userEntity = null] = await sql<UserEntity[]>`select id::int, name from users where id = ${id}`;
     const user = userEntity && UserService.new(userEntity.id, userEntity.name)
 
     redis.setex(cacheKey, CacheFor.ONE_HOUR, JSON.stringify(user));
-    redis.sadd(cacheKey, UserRepository.USERS_KEY);
+    redis.sadd(UserRepository.USERS_KEY, cacheKey);
 
     return user;
   }
