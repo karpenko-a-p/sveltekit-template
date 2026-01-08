@@ -2,12 +2,11 @@
   import SEO from '$src/components/SEO.svelte';
   import UploadedImages from '$src/components/UploadedImages.svelte';
   import { FileInput } from '$src/ui';
-  import { BooleanState } from '$src/utils/BooleanState.svelte.ts';
   import type { EventHandler } from 'svelte/elements';
   import { FileApi } from '$src/api/FileApi.ts';
 
   let files = $state<Maybe<FileList>>();
-  const sendingFiles = new BooleanState();
+  let sendingFiles = $state(true);
   const noFiles = $derived(!files?.length);
 
   const onsubmit: EventHandler<SubmitEvent, HTMLFormElement> = (event) => {
@@ -15,9 +14,9 @@
 
     if (noFiles) return;
 
-    sendingFiles.makeTrue();
+    sendingFiles = true;
 
-    FileApi.createImage(files!).finally(sendingFiles.makeFalse);
+    FileApi.createImage(files!).finally(() => (sendingFiles = false));
   };
 </script>
 
@@ -27,7 +26,7 @@
   <h1 class="mb-3">File load form</h1>
 
   <form {onsubmit}>
-    <FileInput name="files" bind:files disabled={sendingFiles.state} accept="image/*" multiple type="file" required />
+    <FileInput name="files" bind:files disabled={sendingFiles} accept="image/*" multiple type="file" required />
     <UploadedImages bind:files class="my-2" />
     <button class="mt-2 small" disabled={noFiles}>Сохранить</button>
   </form>

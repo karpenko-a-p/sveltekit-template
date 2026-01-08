@@ -5,9 +5,15 @@ export class BooleanState {
     this.state = $state(state);
   }
 
-  readonly makeFalse = (): void => void (this.state = false);
+  makeFalse(): void {
+    this.state = false;
+  }
 
-  readonly makeTrue = (): void => void (this.state = true);
+  makeTrue(): void {
+    this.state = true;
+  }
 
-  readonly toggle = (): void => void (this.state = !this.state);
+  toggle(): void {
+    this.state = !this.state;
+  }
 }
