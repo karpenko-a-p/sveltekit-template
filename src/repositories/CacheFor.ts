@@ -1,3 +1,6 @@
+/**
+ * Время кэширования
+ */
 export abstract class CacheFor {
   static readonly ONE_MINUTE = CacheFor.minutes(1);
   static readonly FIFTEEN_MINUTES = CacheFor.minutes(15);
@@ -18,13 +21,13 @@ export abstract class CacheFor {
    * Кэширование на часы
    */
   static hours(hours: number): number {
-    return this.minutes(60) * hours;
+    return CacheFor.minutes(60) * hours;
   }
 
   /**
    * Кэширование на дни
    */
   static days(days: number): number {
-    return this.hours(24) * days;
+    return CacheFor.hours(24) * days;
   }
 }

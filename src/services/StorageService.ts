@@ -2,6 +2,9 @@ import { STATIC_FOLDER_NAME } from '$env/static/private';
 import fs from 'fs/promises';
 import path from 'path';
 
+/**
+ * Хранилище медиафайлов
+ */
 export abstract class StorageService {
   /**
    * Путь к медиа файлам

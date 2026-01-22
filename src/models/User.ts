@@ -1,11 +1,11 @@
 export interface User {
   id: number;
-  name: string;
+  email: string;
 }
 
 export abstract class UserService {
-  static new(id = 0, name = ''): User {
-    return { id, name };
+  static new(id = 0, email = ''): User {
+    return { id, email };
   }
 
   static from(user: User): User {
@@ -18,8 +18,8 @@ export abstract class UserService {
       typeof user === 'object' &&
       'id' in user &&
       typeof user.id === 'number' &&
-      'name' in user &&
-      typeof user.name === 'string'
+      'email' in user &&
+      typeof user.email === 'string'
     );
   }
 }

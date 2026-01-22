@@ -3,6 +3,9 @@ import type { UserEntity } from '$src/repositories/entities';
 import { CacheFor } from '$src/repositories/CacheFor';
 import { type User, UserService } from '$src/models/User';
 
+/**
+ * Репозиторий для пользователя
+ */
 export abstract class UserRepository {
   /**
    * Общий ключ для записей пользователей
@@ -10,20 +13,41 @@ export abstract class UserRepository {
   private static readonly USERS_KEY = 'users';
 
   /**
+   * Проверка существования по email
+   */
+  static async existsByEmail(email: User['email']): Promise<boolean> {
+    const rows = await sql<Array<{ exists: boolean }>>`select 1::bool as exists from users where email = ${email}`;
+    return rows[0]?.exists;
+  }
+
+  /**
+   * Создание пользователя
+   */
+  static async createUser(email: string, password: string): Promise<User> {
+    const [userEntity] = await sql<UserEntity[]>`
+      insert into users (email, password)
+      values (${email}, ${password})
+      returning *;
+    `;
+
+    return UserService.new(userEntity.id, userEntity.email);
+  }
+
+  /**
    * Получение пользователя по идентификатору
    */
-  static async getUserById(id: UserEntity['id']): Promise<Maybe<User>> {
+  static async getUserById(id: User['id']): Promise<Maybe<User>> {
     const cacheKey = `getUserById(${id})`;
     const cached = redis.exists(cacheKey);
-    const cachedUser = redis.get(cacheKey)
+    const cachedUser = redis.get(cacheKey);
 
     if (await cached) {
       const user = await cachedUser;
       return user && JSON.parse(user);
     }
 
-    const [userEntity = null] = await sql<UserEntity[]>`select id::int, name from users where id = ${id}`;
-    const user = userEntity && UserService.new(userEntity.id, userEntity.name)
+    const [userEntity = null] = await sql<UserEntity[]>`select id::int, email from users where id = ${id}`;
+    const user = userEntity && UserService.new(userEntity.id, userEntity.email);
 
     redis.setex(cacheKey, CacheFor.ONE_HOUR, JSON.stringify(user));
     redis.sadd(UserRepository.USERS_KEY, cacheKey);

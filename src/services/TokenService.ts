@@ -3,7 +3,7 @@ import { default as jwt, type JwtPayload, type SignOptions } from 'jsonwebtoken'
 
 export interface TokenPayload extends JwtPayload {
   id: string;
-  login: string;
+  email: string;
 }
 
 export abstract class TokenService {
@@ -30,7 +30,7 @@ export abstract class TokenService {
   /**
    * Расшифровка и подпись jwt токена
    */
-  static sign(payload: Pick<TokenPayload, 'id' | 'login'>): string {
-    return jwt.sign(payload, JWT_SECRET, TokenService.SIGN_OPTIONS);
+  static sign(id: TokenPayload['id'], email: TokenPayload['email']): string {
+    return jwt.sign({ id, email }, JWT_SECRET, TokenService.SIGN_OPTIONS);
   }
 }
