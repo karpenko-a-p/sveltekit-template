@@ -16,8 +16,8 @@ export abstract class UserRepository {
    * Проверка существования по email
    */
   static async existsByEmail(email: User['email']): Promise<boolean> {
-    const rows = await sql<Array<{ exists: boolean }>>`select 1::bool as exists from users where email = ${email}`;
-    return rows[0]?.exists;
+    const [firstRow] = await sql<Array<{ exists: boolean }>>`select 1::bool as exists from users where email = ${email}`;
+    return Boolean(firstRow?.exists);
   }
 
   /**
@@ -53,6 +53,22 @@ export abstract class UserRepository {
     redis.sadd(UserRepository.USERS_KEY, cacheKey);
 
     return user;
+  }
+
+  /**
+   * Получение пользователя по email
+   */
+  static async getUserByEmail(email: User['email']): Promise<Maybe<User>> {
+    const [userEntity = null] = await sql<UserEntity[]>`select id::int, email from users where email = ${email}`;
+    return userEntity && UserService.new(userEntity.id, userEntity.email);
+  }
+
+  /**
+   * Получение хэшированного пароля пользователя
+   */
+  static async getUserPasswordById(id: User['id']): Promise<Maybe<string>> {
+    const [firstRow] = await sql<Array<{ password: string }>>`select password from users where id = ${id}`;
+    return firstRow?.password ?? null;
   }
 
   /**

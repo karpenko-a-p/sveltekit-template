@@ -3,12 +3,12 @@ import { UserRepository } from '$src/repositories/UserRepository';
 import { TokenService } from '$src/services/TokenService';
 import { CookieService } from '$src/services/CookieService';
 
-interface RegisterContract {
+interface LoginContract {
   email: string;
   password: string;
 }
 
-function validatePayload(payload: unknown): payload is RegisterContract {
+function validatePayload(payload: unknown): payload is LoginContract {
   return Boolean(
     payload &&
     typeof payload === 'object' &&
@@ -26,17 +26,21 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
     return json('Validation error', { status: 400 });
   }
 
-  if (await UserRepository.existsByEmail(payload.email)) {
-    return json('User already exists', { status: 400 });
+  const user = await UserRepository.getUserByEmail(payload.email);
+
+  if (!user) {
+    return json('Invalid email or password', { status: 404 });
   }
 
-  const hashedPassword = await Bun.password.hash(payload.password, { algorithm: 'bcrypt', cost: 10 });
+  const userHashedPassword = await UserRepository.getUserPasswordById(user.id);
 
-  const createdUser = await UserRepository.createUser(payload.email, hashedPassword);
+  if (!userHashedPassword || !(await Bun.password.verify(payload.password, userHashedPassword, 'bcrypt'))) {
+    return json('Invalid email or password', { status: 404 });
+  }
 
-  const jwtToken = TokenService.sign(createdUser.id.toString(), createdUser.email);
+  const jwtToken = TokenService.sign(user.id.toString(), user.email);
 
   CookieService.setJwtToken(cookies, jwtToken);
 
-  return json(createdUser, { status: 201 });
+  return json(user, { status: 200 });
 };
