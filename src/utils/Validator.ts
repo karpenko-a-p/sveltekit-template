@@ -21,6 +21,13 @@ export class Validator {
     return this.errors.length === 0;
   }
 
+  /**
+   * Очистка массива ошибок
+   */
+  clear(): void {
+    this.errors.length = 0;
+  }
+
   // ==========
   // Валидаторы с фиксацией ошибок
   // ==========
@@ -33,6 +40,10 @@ export class Validator {
 
   object<TObj extends object>(value: unknown, message: string): value is TObj {
     return this.check(Validator.object(value), message);
+  }
+
+  array<TElement>(value: unknown, message: string): value is TElement[] {
+    return this.check(Validator.array(value), message);
   }
 
   string(value: unknown, message: string): value is string {
@@ -65,6 +76,10 @@ export class Validator {
 
   static object<TObj extends object>(value: unknown): value is TObj {
     return Boolean(value && typeof value === 'object' && !Array.isArray(value));
+  }
+
+  static array<TElement>(value: unknown): value is TElement[] {
+    return Boolean(value && typeof value === 'object' && Array.isArray(value));
   }
 
   static string(value: unknown): value is string {

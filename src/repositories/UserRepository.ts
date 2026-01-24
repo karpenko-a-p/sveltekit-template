@@ -27,7 +27,7 @@ export abstract class UserRepository {
     const [userEntity] = await sql<UserEntity[]>`
       insert into users (email, password)
       values (${email}, ${password})
-      returning *;
+      returning id, email;
     `;
 
     return UserService.new(userEntity.id, userEntity.email);

@@ -15,6 +15,11 @@ export abstract class CookieService {
   private static readonly JWT_COOKIE_PATH = '/';
 
   /**
+   * Дни жизни токена
+   */
+  private static readonly JWT_LIFETIME_7DAYS = 1000 * 60 * 60 * 24 * 7;
+
+  /**
    * Установка токена в куки
    */
   static setJwtToken(cookies: Cookies, token: string): void {
@@ -22,7 +27,7 @@ export abstract class CookieService {
       httpOnly: true,
       secure: true,
       path: CookieService.JWT_COOKIE_PATH,
-      expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7) // 7 days
+      expires: new Date(Date.now() + CookieService.JWT_LIFETIME_7DAYS)
     });
   }
 
