@@ -30,7 +30,8 @@ export default defineConfig(
       'no-undef': 'off',
       'svelte/require-each-key': 'off',
       'svelte/no-navigation-without-resolve': 'off',
-      '@typescript-eslint/explicit-function-return-type': 'warn'
+      '@typescript-eslint/explicit-function-return-type': 'warn',
+      '@typescript-eslint/no-unused-expressions': 'off'
     }
   },
   {
