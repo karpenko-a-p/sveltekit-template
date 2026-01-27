@@ -12,27 +12,62 @@ export abstract class StorageService {
   private static readonly STATIC_FOLDER = path.resolve(STATIC_FOLDER_NAME);
 
   /**
-   * Создание папки со статикой
+   * Создание уникального имени для файла
    */
-  private static createStaticFolder(): Promise<void> {
-    return fs.mkdir(StorageService.STATIC_FOLDER, { recursive: true }) as Promise<void>;
+  private static async createFileName(filename: string): Promise<string> {
+    let newFilename: string;
+
+    do {
+      newFilename = crypto.randomUUID() + path.extname(filename);
+    } while (await StorageService.checkFileExists(filename));
+
+    return newFilename;
   }
 
   /**
-   * Убеждение в существовании папки со статикой
+   * Получение пути папки текущего дня
    */
-  private static ensureStaticFolderCreated(): Promise<void> {
-    return fs.access(StorageService.STATIC_FOLDER).catch(StorageService.createStaticFolder);
+  private static createTodayFolderPath(): string {
+    const today = new Date();
+
+    // prettier-ignore
+    return path.join(
+      String(today.getFullYear()),
+      String(today.getMonth() + 1),
+      String(today.getDate())
+    );
+  }
+
+  /**
+   * Создание папки
+   */
+  private static createFolder(folderPath: string): Promise<void> {
+    return fs.mkdir(folderPath, { recursive: true }) as Promise<void>;
+  }
+
+  /**
+   * Убеждение в существовании папки
+   */
+  private static ensureFolderCreated(folderPath: string): Promise<void> {
+    return fs.access(folderPath).catch(() => StorageService.createFolder(folderPath));
+  }
+
+  /**
+   * Проверка что файл существует
+   */
+  static checkFileExists(filename: string): Promise<boolean> {
+    return Bun.file(filename).exists();
   }
 
   /**
    * Сохранение файла
    */
   static async saveFile(file: File): Promise<string> {
-    const filename = crypto.randomUUID() + path.extname(file.name);
+    const filename = await StorageService.createFileName(file.name);
+    const fileFutureLocation = StorageService.createTodayFolderPath();
     const buffer = Buffer.from(await file.arrayBuffer());
-    await StorageService.ensureStaticFolderCreated();
-    await fs.writeFile(path.join(StorageService.STATIC_FOLDER, filename), buffer);
-    return filename;
+    await StorageService.ensureFolderCreated(path.join(StorageService.STATIC_FOLDER, fileFutureLocation));
+    await fs.writeFile(path.join(StorageService.STATIC_FOLDER, fileFutureLocation, filename), buffer);
+    return path.join(fileFutureLocation, filename);
   }
 }

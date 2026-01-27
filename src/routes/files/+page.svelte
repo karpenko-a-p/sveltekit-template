@@ -6,7 +6,7 @@
   import { FileApi } from '$src/api/FileApi.ts';
 
   let files = $state<Maybe<FileList>>();
-  let sendingFiles = $state(true);
+  let sendingFiles = $state(false);
   const noFiles = $derived(!files?.length);
 
   const onsubmit: EventHandler<SubmitEvent, HTMLFormElement> = (event) => {
