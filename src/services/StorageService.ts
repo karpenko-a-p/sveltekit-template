@@ -64,10 +64,10 @@ export abstract class StorageService {
    */
   static async saveFile(file: File): Promise<string> {
     const filename = await StorageService.createFileName(file.name);
-    const fileFutureLocation = StorageService.createTodayFolderPath();
+    const todayFolderPath = StorageService.createTodayFolderPath();
     const buffer = Buffer.from(await file.arrayBuffer());
-    await StorageService.ensureFolderCreated(path.join(StorageService.STATIC_FOLDER, fileFutureLocation));
-    await fs.writeFile(path.join(StorageService.STATIC_FOLDER, fileFutureLocation, filename), buffer);
-    return path.join(fileFutureLocation, filename);
+    await StorageService.ensureFolderCreated(path.join(StorageService.STATIC_FOLDER, todayFolderPath));
+    await fs.writeFile(path.join(StorageService.STATIC_FOLDER, todayFolderPath, filename), buffer);
+    return path.join(todayFolderPath, filename);
   }
 }
