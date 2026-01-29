@@ -53,6 +53,16 @@ export abstract class StorageService {
   }
 
   /**
+   * Сохранение объекта (буффера) в хранилище, возвращает путь по типу '<год>/<месяц>/<день>/<название файла>'
+   */
+  private static async saveInStorage(buffer: Buffer, filename: string): Promise<string> {
+    const todayFolderPath = StorageService.createTodayFolderPath();
+    await StorageService.ensureFolderCreated(path.join(StorageService.STATIC_FOLDER, todayFolderPath));
+    await fs.writeFile(path.join(StorageService.STATIC_FOLDER, todayFolderPath, filename), buffer);
+    return path.join(todayFolderPath, filename);
+  }
+
+  /**
    * Проверка что файл существует
    */
   static checkFileExists(filename: string): Promise<boolean> {
@@ -64,10 +74,15 @@ export abstract class StorageService {
    */
   static async saveFile(file: File): Promise<string> {
     const filename = await StorageService.createFileName(file.name);
-    const todayFolderPath = StorageService.createTodayFolderPath();
     const buffer = Buffer.from(await file.arrayBuffer());
-    await StorageService.ensureFolderCreated(path.join(StorageService.STATIC_FOLDER, todayFolderPath));
-    await fs.writeFile(path.join(StorageService.STATIC_FOLDER, todayFolderPath, filename), buffer);
-    return path.join(todayFolderPath, filename);
+    return StorageService.saveInStorage(buffer, filename);
+  }
+
+  /**
+   * Сохранение буффера (сохраняем в .webp)
+   */
+  static async saveBufferToFile(buffer: Buffer): Promise<string> {
+    const filename = await StorageService.createFileName('plug.webp');
+    return StorageService.saveInStorage(buffer, filename);
   }
 }
