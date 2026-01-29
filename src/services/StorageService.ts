@@ -81,7 +81,7 @@ export abstract class StorageService {
   /**
    * Сохранение буффера (сохраняем в .webp)
    */
-  static async saveBufferToFile(buffer: Buffer): Promise<string> {
+  static async saveBuffer(buffer: Buffer): Promise<string> {
     const filename = await StorageService.createFileName('plug.webp');
     return StorageService.saveInStorage(buffer, filename);
   }

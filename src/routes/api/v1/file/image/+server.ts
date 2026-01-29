@@ -10,7 +10,7 @@ export const POST: RequestHandler = async ({ request }) => {
   for (const file of files) {
     if (!FileService.checkFileIsImage(file)) continue;
     const preparedFileBuffer = await FileService.prepareImage(file);
-    savedFiles.push(await StorageService.saveBufferToFile(preparedFileBuffer));
+    savedFiles.push(await StorageService.saveBuffer(preparedFileBuffer));
   }
 
   return json(savedFiles);
