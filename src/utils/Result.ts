@@ -1,29 +1,47 @@
-export class Result<TValue = unknown> {
-  static ok<TValue = unknown>(value: TValue = null as TValue): Result<TValue> {
-    return new Result(true, value);
+/**
+ * Имплементация резалт паттерна
+ */
+export class Result<TOk, TFail> {
+  /**
+   * Success
+   */
+  static ok<TOk, TFail>(value: TOk): Result<TOk, TFail> {
+    return new Result<TOk, TFail>(true, value);
   }
 
-  static fail<TValue = unknown>(value: TValue = null as TValue): Result<TValue> {
-    return new Result(false, value);
+  /**
+   * Failure
+   */
+  static fail<TOk, TFail>(value: TFail): Result<TOk, TFail> {
+    return new Result<TOk, TFail>(false, value);
   }
 
-  static from<TValue>(result: unknown): Maybe<Result<TValue>> {
+  /**
+   * Получение объекта результата из неизвестного объекта
+   */
+  static from<TOk, TFail>(result: unknown): Maybe<Result<TOk, TFail>> {
     // prettier-ignore
     if (result && typeof result === 'object' && 'success' in result && typeof result.success === 'boolean' && 'value' in result) {
-      return new Result(result.success, result.value as TValue);
+      return new Result<TOk, TFail>(result.success, result.value as TOk);
     }
   }
 
   private constructor(
     private readonly success: boolean,
-    readonly value: TValue
+    readonly value: TOk | TFail
   ) {}
 
-  isOk<TVal extends TValue>(): this is Result<TVal> {
+  /**
+   * Проверка что результат успешный
+   */
+  isOk(): this is { value: TOk } {
     return this.success;
   }
 
-  isFail<TVal extends TValue>(): this is Result<TVal> {
+  /**
+   * Проверка что результат неудачный
+   */
+  isFail(): this is { value: TFail } {
     return !this.success;
   }
 }

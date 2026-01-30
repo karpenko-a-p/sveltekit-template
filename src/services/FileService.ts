@@ -16,6 +16,32 @@ export abstract class FileService {
   private static readonly MAIN_FONT_PATH = path.resolve('static', 'fonts', 'Inter-Regular.ttf');
 
   /**
+   * Получение локального шрифта в формате base64
+   */
+  private static async getFontInBase64(fontPath: string): Promise<string> {
+    return Buffer.from(await Bun.file(fontPath).arrayBuffer()).toString('base64');
+  }
+
+  /**
+   * Создания буффера с вотермаркой
+   */
+  private static createWatermark(fontBase64: string, text: string): Buffer {
+    return Buffer.from(`
+      <svg width="400" height="200">
+        <style>
+          @font-face {
+            font-family: 'Inter';
+            src: url(data:font/truetype;base64,${fontBase64});
+          }
+        </style>
+        <text x="50%" y="50%" text-anchor="middle" font-size="40" fill="white" font-family="Inter" opacity="0.5">
+          ${text}
+        </text>
+      </svg>
+    `);
+  }
+
+  /**
    * Проверка что файл обладает поддерживаемым сервисом форматом
    */
   static checkFileFormatIsAvailable(file: File): boolean {
@@ -55,22 +81,8 @@ export abstract class FileService {
         ? image.resize({ height: FileService.MAX_IMAGE_CORNER_PX })
         : image.resize({ width: FileService.MAX_IMAGE_CORNER_PX });
 
-    const fontBase64 = Buffer.from(await Bun.file(FileService.MAIN_FONT_PATH).arrayBuffer()).toString('base64');
-    const watermarkText = 'Вотермарочка';
-
-    const watermark = Buffer.from(`
-      <svg width="400" height="200">
-        <style>
-          @font-face {
-            font-family: 'Inter';
-            src: url(data:font/truetype;base64,${fontBase64});
-          }
-        </style>
-        <text x="50%" y="50%" text-anchor="middle" font-size="40" fill="white" font-family="Inter" opacity="0.5">
-          ${watermarkText}
-        </text>
-      </svg>
-    `);
+    const fontBase64 = await FileService.getFontInBase64(FileService.MAIN_FONT_PATH);
+    const watermark = FileService.createWatermark(fontBase64, 'Вотермарочка');
 
     return resizedImage
       .webp({ quality: 90 })

@@ -8,9 +8,15 @@ export const POST: RequestHandler = async ({ request }) => {
   const savedFiles: string[] = [];
 
   for (const file of files) {
-    if (!FileService.checkFileIsImage(file)) continue;
-    const preparedFileBuffer = await FileService.prepareImage(file);
-    savedFiles.push(await StorageService.saveBuffer(preparedFileBuffer));
+    if (FileService.checkFileIsImage(file)) {
+      const preparedFileBuffer = await FileService.prepareImage(file);
+      savedFiles.push(await StorageService.saveBuffer(preparedFileBuffer));
+      continue;
+    }
+
+    if (FileService.checkFileIsVideo(file)) {
+      savedFiles.push(await StorageService.saveFile(file));
+    }
   }
 
   return json(savedFiles);

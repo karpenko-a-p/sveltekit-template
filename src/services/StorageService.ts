@@ -70,7 +70,7 @@ export abstract class StorageService {
   }
 
   /**
-   * Сохранение файла
+   * Сохранение файла (изображения сохраняются в .webp)
    */
   static async saveFile(file: File): Promise<string> {
     const filename = await StorageService.createFileName(file.name);
