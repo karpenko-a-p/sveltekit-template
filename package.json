@@ -50,6 +50,7 @@
   "dependencies": {
     "@tabler/icons-svelte": "3.35.0",
     "jsonwebtoken": "9.0.3",
+    "node-cron": "4.2.1",
     "sharp": "0.34.5"
   },
   "browserslist": [
