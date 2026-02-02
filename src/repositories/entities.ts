@@ -8,3 +8,8 @@ export interface MediaEntity {
   id: number;
   filename: string;
 }
+
+export interface CityEntity {
+  id: string;
+  name: string;
+}
