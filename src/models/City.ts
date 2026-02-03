@@ -2,7 +2,7 @@
  * Город
  */
 export interface City {
-  id: string;
+  code: string;
   name: string;
 }
 
@@ -13,7 +13,7 @@ export abstract class CityService {
   /**
    * Создание нового города
    */
-  static new(id: string, name: string): City {
-    return { id, name };
+  static new(code: string, name: string): City {
+    return { code, name };
   }
 }

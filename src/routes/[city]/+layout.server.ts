@@ -14,10 +14,10 @@ export const load: LayoutServerLoad = ({ params, cookies }) => {
       redirect(303, AppRoutes.city(city));
     }
 
-    redirect(303, AppRoutes.city(CityRepository.DEFAULT_CITY.id));
+    redirect(303, AppRoutes.city(CityRepository.DEFAULT_CITY.code));
   }
 
-  const cookieCity = CookieService.getCity(cookies)
+  const cookieCity = CookieService.getCity(cookies);
 
   // Установка города в куки если не указан или не соответствует пути
   if (!cookieCity || cookieCity !== params.city) {

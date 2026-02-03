@@ -12,6 +12,6 @@ export const load: PageServerLoad = ({ cookies }) => {
     redirect(303, AppRoutes.city(city));
   }
 
-  CookieService.setCity(cookies, CityRepository.DEFAULT_CITY.id);
-  redirect(303, AppRoutes.city(CityRepository.DEFAULT_CITY.id));
+  CookieService.setCity(cookies, CityRepository.DEFAULT_CITY.code);
+  redirect(303, AppRoutes.city(CityRepository.DEFAULT_CITY.code));
 };

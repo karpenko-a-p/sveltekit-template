@@ -10,6 +10,6 @@ export interface MediaEntity {
 }
 
 export interface CityEntity {
-  id: string;
+  code: string;
   name: string;
 }
