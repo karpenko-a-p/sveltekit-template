@@ -1,17 +1,23 @@
 <script lang="ts">
-  import type { TokenPayload } from '$src/services/TokenService';
+  import IconLogin from '@tabler/icons-svelte/icons/login-2';
+  import { page } from '$app/state';
 
-  interface Props {
-    token: Maybe<TokenPayload>;
-  }
-
-  const { token }: Props = $props();
+  const token = $derived(page.data.token);
 </script>
 
-<div class="container py-2 flex justify-between">
-  <h1 class="text-2xl">MY<span class="font-light">ПОРТАЛ</span></h1>
+<header class="container py-2 flex justify-between items-center">
+  <h1 class="text-2xl max-mobile:text-xl">
+    MY<span class="font-normal">ПОРТАЛ</span>
+  </h1>
 
   {#if token}
     <p>{token.id} {token.email}</p>
+  {:else}
+    <a href="{page.params.city}/auth">
+      <button class="secondary small">
+        <IconLogin />
+        Войти
+      </button>
+    </a>
   {/if}
-</div>
+</header>

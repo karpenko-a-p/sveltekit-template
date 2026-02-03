@@ -1,23 +1,16 @@
 <script lang="ts">
-  import type { PageProps } from '$svelte-kit/[city]/$types';
   import SEO from '$src/components/SEO.svelte';
   import Navigation from '$src/components/Navigation.svelte';
-  import Counter from '$src/features/Counter';
   import Header from '$src/components/Header.svelte';
-
-  const { data }: PageProps = $props();
+  import { page } from '$app/state';
 </script>
 
-<SEO title="Counter page" description="counter page" />
+<SEO title="{page.data.city.name} | Главная" description="Интернет-магазин" />
 
-<Navigation cityName={data.city.name} />
+<Navigation />
 
-<Header token={data.token} />
+<Header />
 
-<div class="container flex flex-col">
-  {#each { length: 10 }}
-    <div class="paper mb-3">
-      <Counter />
-    </div>
-  {/each}
+<div class="container">
+  <p>Lorem ipsum dolor sit amet.</p>
 </div>

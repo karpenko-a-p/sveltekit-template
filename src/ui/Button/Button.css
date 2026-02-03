@@ -4,20 +4,20 @@
     transition ease-in-out bg-blue-500 hover:bg-blue-600 text-white text-base gap-1
     max-mobile:text-sm px-4 py-2.5 max-mobile:px-3.5 max-mobile:py-2 shadow-lg shadow-blue-500/50
     disabled:bg-gray-100 disabled:text-gray-500 disabled:shadow-none active:shadow-md
-    disabled:cursor-not-allowed select-none appearance-none [&>svg]:size-[24px]
-    max-mobile:[&>svg]:size-[20px] focus-visible:outline-offset-2 not-disabled:active:translate-y-1
+    disabled:cursor-not-allowed select-none appearance-none [&>svg]:size-6
+    max-mobile:[&>svg]:size-5 focus-visible:outline-offset-2 not-disabled:active:translate-y-1
     focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-blue-500;
   }
 
   /*Размер*/
   button.small {
     @apply px-3.5 py-2 max-mobile:px-3 max-mobile:py-1.5 text-sm max-mobile:text-xs
-    [&>svg]:size-[20px] max-mobile:[&>svg]:size-[16px];
+    [&>svg]:size-5 max-mobile:[&>svg]:size-4;
   }
 
   button.big {
     @apply px-4.5 py-3 max-mobile:px-4 max-mobile:py-2.5 text-lg max-mobile:text-base
-    [&>svg]:size-[28px] max-mobile:[&>svg]:size-[24px];
+    [&>svg]:size-7 max-mobile:[&>svg]:size-6;
   }
 
   /*Стиль*/

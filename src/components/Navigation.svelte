@@ -1,15 +1,11 @@
 <script lang="ts">
-  import IconHome from '@tabler/icons-svelte/icons/send';
+  import IconSend from '@tabler/icons-svelte/icons/send';
   import { slide } from 'svelte/transition';
-  import { browser } from 'globals';
-
-  interface Props {
-    cityName: string;
-  }
-
-  const { cityName }: Props = $props();
+  import { browser } from '$app/environment';
+  import { page } from '$app/state';
 
   let opened = $state(false);
+  const cityName = $derived(page.data.city.name);
 
   $effect(() => {
     cityName;
@@ -19,9 +15,9 @@
 
 <nav class="py-1 bg-neutral-100">
   <div class="container flex justify-between">
-    <p class="secondary">Тестовый проект</p>
-    <button class="ghost p-0 pr-1.5 gap-0" onclick={() => (opened = !opened)}>
-      <IconHome class="h-4" />
+    <p class="secondary small">Для лиц старше 18 лет</p>
+    <button class="ghost small p-0 gap-0 max-mobile:gap-0.5" onclick={() => (opened = !opened)}>
+      <IconSend class="h-4 max-mobile:size-3" />
       {cityName}
     </button>
   </div>
