@@ -3,6 +3,7 @@ import { UserRepository } from '$src/repositories/UserRepository';
 import { TokenService } from '$src/services/TokenService';
 import { CookieService } from '$src/services/CookieService';
 import { Validator, type ValidatorFn } from '$src/utils/Validator';
+import { BAD_REQUEST, NOT_FOUND, OK } from '$src/utils/statuses';
 
 interface LoginContract {
   email: string;
@@ -36,24 +37,24 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
   const validator = new Validator();
 
   if (!validatePayload(validator, payload)) {
-    return json(validator.errors, { status: 400 });
+    return json(validator.errors, { status: BAD_REQUEST });
   }
 
   const user = await UserRepository.getUserByEmail(payload.email);
 
   if (!user) {
-    return json(['Неверный адрес электронной почты или пароль'], { status: 404 });
+    return json(['Неверный адрес электронной почты или пароль'], { status: NOT_FOUND });
   }
 
   const userHashedPassword = await UserRepository.getUserPasswordById(user.id);
 
   if (!userHashedPassword || !(await Bun.password.verify(payload.password, userHashedPassword, 'bcrypt'))) {
-    return json(['Неверный адрес электронной почты или пароль'], { status: 404 });
+    return json(['Неверный адрес электронной почты или пароль'], { status: NOT_FOUND });
   }
 
   const jwtToken = TokenService.sign(user.id.toString(), user.email);
 
   CookieService.setJwtToken(cookies, jwtToken);
 
-  return json(user, { status: 200 });
+  return json(user, { status: OK });
 };

@@ -28,7 +28,7 @@
       return;
     }
 
-    await goto(AppRoutes.profile(page.params.city!));
+    await goto(AppRoutes.profile(page.params.city!), { invalidateAll: true });
   }
 </script>
 

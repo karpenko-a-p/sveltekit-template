@@ -1,4 +1,5 @@
 import { Result } from '$src/utils/Result';
+import { BAD_REQUEST } from '$src/utils/statuses';
 
 /**
  * API для авторизации
@@ -15,7 +16,7 @@ export abstract class AuthApi {
       return Result.ok(null);
     }
 
-    if (response.status === 400) {
+    if (response.status === BAD_REQUEST) {
       const errors: string[] = await response.json();
       return Result.fail(errors);
     }
@@ -34,11 +35,19 @@ export abstract class AuthApi {
       return Result.ok(null);
     }
 
-    if (response.status === 400) {
+    if (response.status === BAD_REQUEST) {
       const errors: string[] = await response.json();
       return Result.fail(errors);
     }
 
     return Result.fail([]);
+  }
+
+  /**
+   * Выход из профиля
+   */
+  static async logout(): Promise<Result<null, null>> {
+    const response = await fetch('/api/v1/auth/logout', { method: 'POST' });
+    return response.ok ? Result.ok(null) : Result.fail(null);
   }
 }

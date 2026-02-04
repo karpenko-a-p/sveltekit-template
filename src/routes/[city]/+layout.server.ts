@@ -4,6 +4,7 @@ import { CityRepository } from '$src/repositories/CityRepository';
 import { redirect } from '@sveltejs/kit';
 import { AppRoutes } from '$src/services/AppRoutes';
 import { UserActions } from '$src/actions/UserActions.ts';
+import { TEMPORARY_REDIRECT } from '$src/utils/statuses';
 
 /**
  * 1. Чтение города из пути запроса /[city] и синхронизация с куками
@@ -18,10 +19,10 @@ export const load: LayoutServerLoad = ({ params, cookies }) => {
 
     // Город полученный из куки существует и валидный
     if (city && citiesDict.has(city)) {
-      redirect(303, AppRoutes.city(city));
+      redirect(TEMPORARY_REDIRECT, AppRoutes.city(city));
     }
 
-    redirect(303, AppRoutes.city(CityRepository.DEFAULT_CITY.code));
+    redirect(TEMPORARY_REDIRECT, AppRoutes.city(CityRepository.DEFAULT_CITY.code));
   }
 
   const cookieCity = CookieService.getCity(cookies);

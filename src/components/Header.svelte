@@ -1,8 +1,9 @@
 <script lang="ts">
   import IconLogin from '@tabler/icons-svelte/icons/login-2';
+  import IconUser from '@tabler/icons-svelte/icons/user';
   import { page } from '$app/state';
 
-  const token = $derived(page.data.jwtToken);
+  const authorized = $derived(page.data.jwtToken);
   const notAuthPage = $derived(!page.url.pathname.endsWith('/auth'));
 </script>
 
@@ -13,8 +14,13 @@
     </h1>
   </a>
 
-  {#if token}
-    <p>{token.id} {token.email}</p>
+  {#if authorized}
+    <a href="/{page.params.city}/profile">
+      <button class="small ghost">
+        <IconUser />
+        Профиль
+      </button>
+    </a>
   {:else if notAuthPage}
     <a href="/{page.params.city}/auth">
       <button class="secondary small">

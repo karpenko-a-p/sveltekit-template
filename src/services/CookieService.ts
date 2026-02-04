@@ -1,4 +1,5 @@
 import type { Cookies } from '@sveltejs/kit';
+import { dev } from '$app/environment';
 
 /**
  * Сервис для работы с куками
@@ -35,7 +36,7 @@ export abstract class CookieService {
   static setJwtToken(cookies: Cookies, token: string): void {
     cookies.set(CookieService.JWT_COOKIE_NAME, token, {
       httpOnly: true,
-      secure: true,
+      secure: !dev,
       path: CookieService.JWT_COOKIE_PATH,
       expires: new Date(Date.now() + CookieService.JWT_LIFETIME_7DAYS)
     });
@@ -52,7 +53,10 @@ export abstract class CookieService {
    * Удаление токена из куки
    */
   static deleteJwtToken(cookies: Cookies): void {
-    cookies.delete(CookieService.JWT_COOKIE_NAME, { path: CookieService.JWT_COOKIE_PATH });
+    cookies.delete(CookieService.JWT_COOKIE_NAME, {
+      path: CookieService.JWT_COOKIE_PATH,
+      secure: !dev
+    });
   }
 
   /**

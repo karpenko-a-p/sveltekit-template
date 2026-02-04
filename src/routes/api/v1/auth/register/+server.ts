@@ -3,6 +3,7 @@ import { UserRepository } from '$src/repositories/UserRepository';
 import { TokenService } from '$src/services/TokenService';
 import { CookieService } from '$src/services/CookieService';
 import { Validator, type ValidatorFn } from '$src/utils/Validator';
+import { BAD_REQUEST, CREATED } from '$src/utils/statuses';
 
 interface RegisterContract {
   email: string;
@@ -36,11 +37,11 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
   const validator = new Validator();
 
   if (!validatePayload(validator, payload)) {
-    return json(validator.errors, { status: 400 });
+    return json(validator.errors, { status: BAD_REQUEST });
   }
 
   if (await UserRepository.existsByEmail(payload.email)) {
-    return json(['Пользователь с данной электронной почтой уже существует'], { status: 400 });
+    return json(['Пользователь с данной электронной почтой уже существует'], { status: BAD_REQUEST });
   }
 
   const hashedPassword = await Bun.password.hash(payload.password, { algorithm: 'bcrypt', cost: 10 });
@@ -51,5 +52,5 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 
   CookieService.setJwtToken(cookies, jwtToken);
 
-  return json(createdUser, { status: 201 });
+  return json(createdUser, { status: CREATED });
 };
