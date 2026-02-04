@@ -16,7 +16,7 @@
   {#if token}
     <p>{token.id} {token.email}</p>
   {:else if notAuthPage}
-    <a href="{page.params.city}/auth">
+    <a href="/{page.params.city}/auth">
       <button class="secondary small">
         <IconLogin />
         Войти

@@ -8,13 +8,28 @@
   import Navigation from '$src/components/Navigation.svelte';
   import Input from '$src/ui/Input/Input.svelte';
   import { AuthApi } from '$src/api/AuthApi';
+  import { goto } from '$app/navigation';
+  import { AppRoutes } from '$src/services/AppRoutes';
 
   let register = $state(true);
   let email = $state('');
   let password = $state('');
+  let errors = $state<string[]>([]);
 
-  const toggleRegister = (): boolean => (register = !register);
-  const onsubmit = (): Promise<void> => (register ? AuthApi.register(email, password) : AuthApi.login(email, password));
+  function toggleRegister(): void {
+    register = !register;
+  }
+
+  async function onsubmit(): Promise<void> {
+    const res = register ? await AuthApi.register(email, password) : await AuthApi.login(email, password);
+
+    if (res.isFail()) {
+      errors = res.value.length ? res.value : ['Внутренняя ошибка сервиса, попробуйте авторизоваться позже'];
+      return;
+    }
+
+    await goto(AppRoutes.profile(page.params.city!));
+  }
 </script>
 
 <SEO title="{page.data.city.name} | Авторизация" description="Авторизация" />
@@ -33,8 +48,12 @@
       <Input bind:value={email} required autocomplete="email" label="Электронная почта" />
       <Input bind:value={password} required autocomplete="current-password" label="Пароль" type="password" />
 
+      {#each errors as error}
+        <p class="small text-red-500">• {error}</p>
+      {/each}
+
       <div class="flex justify-between">
-        <button class="ghost self-start small" onclick={toggleRegister}>
+        <button class="ghost self-start small" type="button" onclick={toggleRegister}>
           {#if register}
             Уже есть аккаунт
           {:else}

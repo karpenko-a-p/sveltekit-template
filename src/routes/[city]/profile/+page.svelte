@@ -1,6 +1,6 @@
 <script lang="ts">
   import SEO from '$src/components/SEO.svelte';
-  import type { PageProps } from '$svelte-kit/profile/$types';
+  import type { PageProps } from '$svelte-kit/[city]/profile/$types';
 
   const { data } = $props() as PageProps;
 </script>

@@ -10,33 +10,37 @@ interface RegisterContract {
 }
 
 const validatePayload: ValidatorFn<RegisterContract> = (validator, payload): payload is RegisterContract => {
-  if (!validator.object<RegisterContract>(payload, 'Invalid payload')) {
+  if (!validator.object<RegisterContract>(payload, 'Некорректный формат данных')) {
     return false;
   }
 
-  if (validator.string(payload.email, 'Email must be string')) {
-    validator.max(payload.email.length, 128, 'Email must be shorter then 128') &&
-      validator.min(payload.email.length, 6, 'Email must be longer then 6');
+  if (validator.string(payload.email, 'Необходимо заполнить электронную почту')) {
+    validator.max(payload.email.length, 128, 'Электронная почта должна быть короче 128 символов') &&
+      validator.min(payload.email.length, 6, 'Электронная почта должна быть длиннее 6 символов') &&
+      validator.matches(payload.email, /\S+@\S+\.\S+/, 'Некорректный формат электронной почты');
   }
 
-  if (validator.string(payload.password, 'Password must be string')) {
-    validator.max(payload.password.length, 128, 'Password must be shorter then 128') &&
-      validator.min(payload.password.length, 6, 'Password must be longer then 6');
+  if (validator.string(payload.password, 'Необходимо заполнить пароль')) {
+    validator.max(payload.password.length, 128, 'Пароль должен быть короче 128 символов') &&
+      validator.min(payload.password.length, 6, 'Пароль должен быть длиннее 6 символов');
   }
 
   return validator.noErrors;
 };
 
+/**
+ * Регистрация пользователя по электронной почте и паролю
+ */
 export const POST: RequestHandler = async ({ request, cookies }) => {
   const payload = await request.json();
   const validator = new Validator();
 
   if (!validatePayload(validator, payload)) {
-    return json({ message: 'Validation error', errors: validator.errors }, { status: 400 });
+    return json(validator.errors, { status: 400 });
   }
 
   if (await UserRepository.existsByEmail(payload.email)) {
-    return json('User already exists', { status: 400 });
+    return json(['Пользователь с данной электронной почтой уже существует'], { status: 400 });
   }
 
   const hashedPassword = await Bun.password.hash(payload.password, { algorithm: 'bcrypt', cost: 10 });

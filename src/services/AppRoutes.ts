@@ -15,4 +15,11 @@ export abstract class AppRoutes {
   static city(cityCode: string): string {
     return `/${cityCode}`;
   }
+
+  /**
+   * Профиль пользователя
+   */
+  static profile(cityCode: string): string {
+    return `/${cityCode}/profile`;
+  }
 }

@@ -44,4 +44,11 @@ export class Result<TOk, TFail> {
   isFail(): this is { value: TFail } {
     return !this.success;
   }
+
+  /**
+   * Получение значения положительного результата или дефолтное значение
+   */
+  unwrapOr(defaultValue: TOk): TOk {
+    return this.isOk() ? this.value : defaultValue;
+  }
 }
