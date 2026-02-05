@@ -2,8 +2,8 @@ import type { LayoutServerLoad } from '$svelte-kit/[city]/$types';
 import { CookieService } from '$src/services/CookieService';
 import { CityRepository } from '$src/repositories/CityRepository';
 import { redirect } from '@sveltejs/kit';
-import { AppRoutes } from '$src/services/AppRoutes';
-import { UserActions } from '$src/actions/UserActions.ts';
+import { Route } from '$src/utils/Route';
+import { UserActions } from '$src/actions/UserActions';
 import { TEMPORARY_REDIRECT } from '$src/utils/statuses';
 
 /**
@@ -19,10 +19,10 @@ export const load: LayoutServerLoad = ({ params, cookies }) => {
 
     // Город полученный из куки существует и валидный
     if (city && citiesDict.has(city)) {
-      redirect(TEMPORARY_REDIRECT, AppRoutes.city(city));
+      redirect(TEMPORARY_REDIRECT, Route.city(city));
     }
 
-    redirect(TEMPORARY_REDIRECT, AppRoutes.city(CityRepository.DEFAULT_CITY.code));
+    redirect(TEMPORARY_REDIRECT, Route.city(CityRepository.DEFAULT_CITY.code));
   }
 
   const cookieCity = CookieService.getCity(cookies);

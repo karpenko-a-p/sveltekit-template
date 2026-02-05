@@ -1,7 +1,7 @@
 /**
  * Роуты приложения
  */
-export abstract class AppRoutes {
+export abstract class Route {
   /**
    * Корень приложения
    */
@@ -14,6 +14,13 @@ export abstract class AppRoutes {
    */
   static city(cityCode: string): string {
     return `/${cityCode}`;
+  }
+
+  /**
+   * Авторизация
+   */
+  static auth(cityCode: string): string {
+    return `/${cityCode}/auth`;
   }
 
   /**

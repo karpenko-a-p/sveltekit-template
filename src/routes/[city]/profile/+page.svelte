@@ -4,7 +4,7 @@
   import { AuthApi } from '$src/api/AuthApi';
   import { goto } from '$app/navigation';
   import { page } from '$app/state';
-  import { AppRoutes } from '$src/services/AppRoutes';
+  import { Route } from '$src/utils/Route';
   import Navigation from '$src/components/Navigation.svelte';
   import Header from '$src/components/Header.svelte';
 
@@ -14,7 +14,7 @@
     const res = await AuthApi.logout();
 
     if (res.isOk()) {
-      await goto(AppRoutes.city(page.params.city), { invalidateAll: true });
+      await goto(Route.city(page.params.city!), { invalidateAll: true });
     }
   }
 </script>

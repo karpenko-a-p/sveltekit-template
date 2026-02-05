@@ -9,7 +9,7 @@
   import Input from '$src/ui/Input/Input.svelte';
   import { AuthApi } from '$src/api/AuthApi';
   import { goto } from '$app/navigation';
-  import { AppRoutes } from '$src/services/AppRoutes';
+  import { Route } from '$src/utils/Route';
 
   let register = $state(true);
   let email = $state('');
@@ -21,14 +21,17 @@
   }
 
   async function onsubmit(): Promise<void> {
-    const res = register ? await AuthApi.register(email, password) : await AuthApi.login(email, password);
+    // prettier-ignore
+    const result = register
+      ? await AuthApi.register(email, password)
+      : await AuthApi.login(email, password);
 
-    if (res.isFail()) {
-      errors = res.value.length ? res.value : ['Внутренняя ошибка сервиса, попробуйте авторизоваться позже'];
+    if (result.isFail()) {
+      errors = result.value.length ? result.value : ['Внутренняя ошибка сервиса, попробуйте авторизоваться позже'];
       return;
     }
 
-    await goto(AppRoutes.profile(page.params.city!), { invalidateAll: true });
+    await goto(Route.profile(page.params.city!), { invalidateAll: true });
   }
 </script>
 

@@ -17,13 +17,13 @@ const validatePayload: ValidatorFn<LoginContract> = (validator, payload): payloa
 
   if (validator.string(payload.email, 'Необходимо заполнить электронную почту')) {
     validator.max(payload.email.length, 128, 'Электронная почта должна быть короче 128 символов') &&
-    validator.min(payload.email.length, 6, 'Электронная почта должна быть длиннее 6 символов') &&
-    validator.matches(payload.email, /\S+@\S+\.\S+/, 'Некорректный формат электронной почты');
+      validator.min(payload.email.length, 6, 'Электронная почта должна быть длиннее 6 символов') &&
+      validator.matches(payload.email, /\S+@\S+\.\S+/, 'Некорректный формат электронной почты');
   }
 
   if (validator.string(payload.password, 'Необходимо заполнить пароль')) {
     validator.max(payload.password.length, 128, 'Пароль должен быть короче 128 символов') &&
-    validator.min(payload.password.length, 6, 'Пароль должен быть длиннее 6 символов');
+      validator.min(payload.password.length, 6, 'Пароль должен быть длиннее 6 символов');
   }
 
   return validator.noErrors;
