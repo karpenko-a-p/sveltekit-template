@@ -1,46 +1,50 @@
+import { dev } from '$app/environment';
+
 /**
  * Логирование
  */
 export abstract class Logger {
   /**
-   * Время лога
+   * Создание сообщения (лога)
    */
-  private static get timestamp(): string {
-    return new Date().toISOString();
+  private static message(type: string, args: unknown[]): void {
+    if (dev) {
+      console.log(`${new Date().toISOString()} ${process.pid} ${type}`, ...args);
+    }
   }
 
   /**
    * Простой лог
    */
   static log(...args: unknown[]): void {
-    console.log(`LOG [${this.timestamp}]:`, ...args);
+    Logger.message('LOG', args);
   }
 
   /**
    * Информационный лог
    */
   static info(...args: unknown[]): void {
-    console.log(`INFO [${this.timestamp}]:`, ...args);
+    Logger.message('INFO', args);
   }
 
   /**
    * Предупреждающий лог
    */
   static warn(...args: unknown[]): void {
-    console.log(`WARN [${this.timestamp}]:`, ...args);
+    Logger.message('WARN', args);
   }
 
   /**
    * Лог ошибки
    */
   static error(...args: unknown[]): void {
-    console.log(`ERROR [${this.timestamp}]:`, ...args);
+    Logger.message('ERROR', args);
   }
 
   /**
    * Критический лог
    */
   static critical(...args: unknown[]): void {
-    console.log(`CRITICAL [${this.timestamp}]:`, ...args);
+    Logger.message('CRITICAL', args);
   }
 }

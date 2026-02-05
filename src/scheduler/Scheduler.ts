@@ -9,7 +9,7 @@ export abstract class Scheduler {
   /**
    * Доступен ли планировщик
    */
-  private static readonly SCHEDULING_AVAILABLE = Boolean(ENABLE_CRON_JOBS);
+  private static readonly SCHEDULING_AVAILABLE = ENABLE_CRON_JOBS === String(true);
 
   /**
    * Инициализирован планировщик
