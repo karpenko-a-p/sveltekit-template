@@ -10,6 +10,7 @@
   import { AuthApi } from '$src/api/AuthApi';
   import { goto } from '$app/navigation';
   import { Route } from '$src/utils/Route';
+  import Footer from '$src/components/Footer.svelte';
 
   let register = $state(true);
   let email = $state('');
@@ -84,3 +85,5 @@
     </div>
   </div>
 </main>
+
+<Footer />

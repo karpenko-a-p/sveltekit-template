@@ -7,6 +7,7 @@
   import { Route } from '$src/utils/Route';
   import Navigation from '$src/components/Navigation.svelte';
   import Header from '$src/components/Header.svelte';
+  import Footer from '$src/components/Footer.svelte';
 
   const { data } = $props() as PageProps;
 
@@ -32,3 +33,5 @@
 
   <button class="small warn mt-10" onclick={logout}>Выйти</button>
 </div>
+
+<Footer />
