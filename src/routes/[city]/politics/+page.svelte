@@ -11,7 +11,7 @@
 
 <Header />
 
-<div class="container pb-4">
+<main class="container pb-4">
   <h1 class="text-xl">Политика конфиденциальности</h1>
 
   <h2 class="text-lg mt-2">Заголовок 1</h2>
@@ -39,6 +39,6 @@
     sapiente temporibus voluptatem? Amet at culpa dignissimos facere ipsam, iusto quia reprehenderit ut. Et id,
     temporibus.
   </p>
-</div>
+</main>
 
 <Footer />

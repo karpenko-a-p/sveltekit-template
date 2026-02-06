@@ -27,7 +27,7 @@
       ? await AuthApi.register(email, password)
       : await AuthApi.login(email, password);
 
-    if (result.isFail()) {
+    if (result.isErr()) {
       errors = result.value.length ? result.value : ['Внутренняя ошибка сервиса, попробуйте авторизоваться позже'];
       return;
     }

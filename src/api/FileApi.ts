@@ -1,3 +1,6 @@
+/**
+ * API для файлов
+ */
 export abstract class FileApi {
   /**
    * Сохранение изображений

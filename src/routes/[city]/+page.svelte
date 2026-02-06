@@ -12,8 +12,8 @@
 
 <Header />
 
-<div class="container">
+<main class="container">
   <p>Lorem ipsum dolor sit amet.</p>
-</div>
+</main>
 
 <Footer />

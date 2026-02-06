@@ -1,34 +1,25 @@
 /**
+ * Result
  * Имплементация резалт паттерна
  */
-export class Result<TOk, TFail> {
+export class Res<TOk, TErr> {
   /**
    * Success
    */
-  static ok<TOk, TFail>(value: TOk): Result<TOk, TFail> {
-    return new Result<TOk, TFail>(true, value);
+  static ok<TOk, TErr>(value: TOk): Res<TOk, TErr> {
+    return new Res<TOk, TErr>(true, value);
   }
 
   /**
    * Failure
    */
-  static fail<TOk, TFail>(value: TFail): Result<TOk, TFail> {
-    return new Result<TOk, TFail>(false, value);
-  }
-
-  /**
-   * Получение объекта результата из неизвестного объекта
-   */
-  static from<TOk, TFail>(result: unknown): Maybe<Result<TOk, TFail>> {
-    // prettier-ignore
-    if (result && typeof result === 'object' && 'success' in result && typeof result.success === 'boolean' && 'value' in result) {
-      return new Result<TOk, TFail>(result.success, result.value as TOk);
-    }
+  static err<TOk, TErr>(value: TErr): Res<TOk, TErr> {
+    return new Res<TOk, TErr>(false, value);
   }
 
   private constructor(
     private readonly success: boolean,
-    readonly value: TOk | TFail
+    readonly value: TOk | TErr
   ) {}
 
   /**
@@ -41,7 +32,7 @@ export class Result<TOk, TFail> {
   /**
    * Проверка что результат неудачный
    */
-  isFail(): this is { value: TFail } {
+  isErr(): this is { value: TErr } {
     return !this.success;
   }
 

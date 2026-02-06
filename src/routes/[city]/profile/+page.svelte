@@ -26,12 +26,12 @@
 
 <Header />
 
-<div class="container my-4">
+<main class="container my-4">
   <h1>Profile</h1>
   <p class="mt-1 mb-4 text-xs secondary">id: {data.id}</p>
   <p>email: {data.email}</p>
 
   <button class="small warn mt-10" onclick={logout}>Выйти</button>
-</div>
+</main>
 
 <Footer />
