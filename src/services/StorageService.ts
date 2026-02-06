@@ -1,6 +1,9 @@
 import { STATIC_FOLDER_NAME } from '$env/static/private';
+import { panic } from '$src/utils/panic';
 import fs from 'fs/promises';
 import path from 'path';
+
+!STATIC_FOLDER_NAME && panic('Не установлен путь для сохранения медиа файлов');
 
 /**
  * Хранилище медиафайлов
@@ -17,9 +20,8 @@ export abstract class StorageService {
   private static async createFileName(filename: string): Promise<string> {
     let newFilename: string;
 
-    do {
-      newFilename = crypto.randomUUID() + path.extname(filename);
-    } while (await StorageService.checkFileExists(filename));
+    do newFilename = crypto.randomUUID() + path.extname(filename);
+    while (await StorageService.checkFileExists(filename));
 
     return newFilename;
   }
